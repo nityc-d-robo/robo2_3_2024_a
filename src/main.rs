@@ -3,16 +3,25 @@ use safe_drive::{
     msg::common_interfaces::sensor_msgs,
 };
 
-use differential_two_wheel_control::DtwcSetting;
-use motor_controller::udp_communication;
+#[allow(unused_imports)]
+use safe_drive::pr_info;
 
-const ROBOT_CENTER_TO_WHEEL_DISTANCE: f64 = 0.37;
+use differential_two_wheel_control::{Chassis, DtwcSetting, Tire};
+use motor_controller::udp_communication;
+const CHASSIS: Chassis = Chassis {
+    l: Tire { id: 0, raito: 1. },
+    r: Tire { id: 1, raito: 1. },
+};
+const MAX_PAWER_INPUT: f64 = 160.;
+const MAX_PAWER_OUTPUT: f64 = 1.;
+const MAX_REVOLUTION: f64 = 5400.;
 
 fn main() -> Result<(), DynError> {
     let dtwc_setting = DtwcSetting {
-        l_id: 0,
-        r_id: 1,
-        robot_center_to_wheel_distance: ROBOT_CENTER_TO_WHEEL_DISTANCE,
+        chassis: CHASSIS,
+        max_pawer_input: MAX_PAWER_INPUT,
+        max_pawer_output: MAX_PAWER_OUTPUT,
+        max_revolution: MAX_REVOLUTION,
     };
 
     // for debug
@@ -22,7 +31,7 @@ fn main() -> Result<(), DynError> {
     let node = ctx.create_node("robo2_3_2024_a", None, Default::default())?;
 
     let subscriber_cmd = node.create_subscriber::<msg::Twist>("cmd_vel2_3", None)?;
-    let subscriber_joy = node.create_subscriber::<sensor_msgs::msg::Joy>("rjoy_2_3", None)?;
+    let subscriber_joy = node.create_subscriber::<sensor_msgs::msg::Joy>("rjoy2_3", None)?;
 
     selector.add_subscriber(
         subscriber_cmd,
@@ -30,17 +39,17 @@ fn main() -> Result<(), DynError> {
             let motor_power = dtwc_setting.move_chassis(msg.linear.x, msg.linear.y, msg.angular.z);
 
             for i in motor_power.keys() {
-                udp_communication::send_pwm_udp("50007", "192.168.4:60000", *i, motor_power[i]);
+                udp_communication::send_pwm_udp("50007", "192.168.1.7:60000", *i, motor_power[i]);
             }
         }),
     );
 
-    selector.add_subscriber(
-        subscriber_joy,
-        Box::new(move |_msg| {
-            todo!();
-        }),
-    );
+    // selector.add_subscriber(
+    //     subscriber_joy,
+    //     Box::new(move |_msg| {
+    //         todo!();
+    //     }),
+    // );
 
     loop {
         selector.wait()?;

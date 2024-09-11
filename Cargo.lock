@@ -47,7 +47,7 @@ checksum = "22ec99545bb0ed0ea7bb9b8e1e9122ea386ff8a48c0922e43f36d45ab09e0e80"
 [[package]]
 name = "differential_two_wheel_control"
 version = "0.1.0"
-source = "git+https://github.com/nityc-d-robo/differential_two_wheel_control?rev=81b2609806ccde59350e92b1f00e7313ca9c9948#81b2609806ccde59350e92b1f00e7313ca9c9948"
+source = "git+https://github.com/nityc-d-robo/differential_two_wheel_control?rev=5f5b3b2fd332f74e89f363eb56f17ca5b49f0ebb#5f5b3b2fd332f74e89f363eb56f17ca5b49f0ebb"
 dependencies = [
  "num-traits",
 ]
@@ -172,7 +172,7 @@ checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
 [[package]]
 name = "motor_controller"
 version = "0.1.0"
-source = "git+https://github.com/nityc-d-robo/motor_controller?rev=ef4488fb75458900dbf7fe062dbad82fe54ba03c#ef4488fb75458900dbf7fe062dbad82fe54ba03c"
+source = "git+https://github.com/nityc-d-robo/motor_controller?rev=ce467588a86a9971a9c5e9354e373206d4cbd4ad#ce467588a86a9971a9c5e9354e373206d4cbd4ad"
 dependencies = [
  "rppal",
  "serde",
@@ -327,9 +327,9 @@ dependencies = [
 
 [[package]]
 name = "rppal"
-version = "0.18.0"
+version = "0.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae44db779bd0898047804d22b662a9dc533b142c077b3f7e36003f658835c5b9"
+checksum = "3b37e992f3222e304708025de77c9e395068a347449d0d7164f52d3beccdbd8d"
 dependencies = [
  "libc",
 ]
